@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/routes/route_names.dart';
+import '../../utils/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,8 +18,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: Center(
             child: InkWell(
                 onTap: () {
-                   Navigator.pushNamed(context, RouteNames.home);
-                }, child: const Text("This is Register Screen"))),
+                  // Utils.toastMessgae("No Such Pages");
+                  Utils.flushMessage(context, "Sorry No Such Page Exists");
+                  Utils.snackBar(context, 'Unable to process the request');
+
+                  //  Navigator.pushNamed(context, RouteNames.home);
+                },
+                child: const Text("This is Register Screen"))),
       ),
     );
   }
