@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/res/components/round_botton.dart';
+import 'package:mvvm/utils/routes/route_names.dart';
 import 'package:mvvm/utils/utils.dart';
 import 'package:mvvm/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,16 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    _obscurePassword.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               SizedBox(
-                height: height * .1,
+                height: height * .05,
               ),
               RoundBotton(
-                loading: authVm.isLoading,
+                  loading: authVm.isLoading,
                   title: 'Login',
                   onPress: () {
                     if (_emailController.text.isEmpty |
@@ -110,13 +121,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           context, 'Password length cannot be less than  6');
                     } else {
                       Map data = {
-                        "email" : _emailController.text.toString(),
-                        "password" : _passwordController.text.toString(),
+                        "email": _emailController.text.toString(),
+                        "password": _passwordController.text.toString(),
                       };
                       authVm.loginApi(data, context);
                       print("Api has been Hit");
                     }
                   }),
+              SizedBox(
+                height: height * .05,
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteNames.register);
+                  },
+                  child: const Text("Don't have an account? Register!")),
             ],
           ),
         ),

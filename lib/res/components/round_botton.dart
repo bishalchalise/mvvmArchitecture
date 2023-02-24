@@ -29,8 +29,8 @@ class RoundBotton extends StatelessWidget {
                 ? const CircularProgressIndicator(
                   
                   color: AppColors.whiteColor,)
-                : const Text(
-                    'Login',
+                :  Text(
+                    title,
                     style: TextStyle(color: AppColors.whiteColor),
                   )),
       ),

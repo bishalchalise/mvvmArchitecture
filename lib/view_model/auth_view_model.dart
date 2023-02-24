@@ -9,6 +9,13 @@ class AuthViewModel with ChangeNotifier {
   bool get isLoading => _isLoading;
   final _myRepo = AuthRepo();
 
+  bool _isRegisterLoading = false;
+  bool get isRegisterLoading => _isRegisterLoading;
+
+ setRegisterLoading(bool value) {
+    _isRegisterLoading = true;
+    notifyListeners();
+  }
   setLoading(bool value) {
     _isLoading = true;
     notifyListeners();
@@ -16,22 +23,43 @@ class AuthViewModel with ChangeNotifier {
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
     setLoading(true);
-   await _myRepo.loginApi(data).then((value) {
+    await _myRepo.loginApi(data).then((value) {
       setLoading(false);
-      Navigator.pushNamed(context, RouteNames.register);
+      Navigator.pushNamed(context, RouteNames.home);
       Utils.flushMessage(context, "Login Successfull");
-     
+
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
-     setLoading(false);
-if (kDebugMode) {
-    Utils.flushMessage(context, error.toString());
-      print(error.toString());
-}
-    
+      setLoading(false);
+      if (kDebugMode) {
+        Utils.flushMessage(context, error.toString());
+        print(error.toString());
+      }
     });
   }
-  
+
+ Future<void> registerApi(dynamic data, BuildContext context) async {
+    setRegisterLoading(true);
+    await _myRepo.loginApi(data).then((value) {
+      setRegisterLoading(false);
+      Navigator.pushNamed(context, RouteNames.login);
+      Utils.flushMessage(context, "Registered Successfull");
+
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setRegisterLoading(false);
+      if (kDebugMode) {
+        Utils.flushMessage(context, error.toString());
+        print(error.toString());
+      }
+    });
+  }
+
+
+
+
 }
